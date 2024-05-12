@@ -15,7 +15,7 @@ public class Constants {
     public static final String MONTH_EVENT_TOPIC = "monthEventTopic";
 
     public static final BigDecimal DEFAULT_MONEY = BigDecimal.valueOf(100);
-    public static final int RANGE_PAY = 0;
+    public static final int RANGE_PAY = 300;
     public static final int NUMBER_CHANGE_TARIFF_DOWN = 1;
     public static final int NUMBER_CHANGE_TARIFF_UPPER = 3;
 
