@@ -12,7 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 
 import static nexign_project_maven.brt.utils.Constants.*;
-
+/**
+ * Service class that handles business logic related to billing and telecommunications rate management.
+ * It listens to Kafka topics for CDR (Call Detail Records) and payment data to process and manage subscriber billing.
+ */
 @Service
 public class BrtService {
 
@@ -20,6 +23,13 @@ public class BrtService {
     public  static TariffRepository tariffRepository;
     public static KafkaTemplate<String, String> kafkaTemplate;
 
+    /**
+     * Constructs a BrtService with necessary repository and Kafka template.
+     *
+     * @param subscriberRepository Repository for subscriber data access
+     * @param tariffRepository Repository for tariff data access
+     * @param kafkaTemplate Kafka template for messaging
+     */
     @Autowired
     public BrtService(SubscriberRepository subscriberRepository, TariffRepository tariffRepository,  KafkaTemplate<String, String> kafkaTemplate) {
         BrtService.subscriberRepository = subscriberRepository;
@@ -28,6 +38,11 @@ public class BrtService {
     }
 
 
+    /**
+     * Listens to the Kafka topic for CDR and enriches each record with tariff information before sending to another topic.
+     *
+     * @param fileContent The raw content of CDR files received as a string
+     */
     @KafkaListener(topics = CDR_TOPIC, groupId = GROUP_ID)
     public static void receiveFileContent(String fileContent) {
         String[] lines = fileContent.split(System.lineSeparator());
@@ -43,7 +58,12 @@ public class BrtService {
         }
     }
 
-
+    /**
+     * Processes incoming payment records from Kafka, debits subscriber accounts, and updates their balance.
+     * This method is synchronized and transactional to ensure data integrity.
+     *
+     * @param paymentRecord The payment record received from Kafka
+     */
     @Transactional
     @KafkaListener(topics = PAYMENT_TOPIC, groupId = GROUP_ID)
     public synchronized void debitingFunds(String paymentRecord) {
