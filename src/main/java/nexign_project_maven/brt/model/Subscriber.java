@@ -1,5 +1,6 @@
 package nexign_project_maven.brt.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
@@ -37,5 +38,23 @@ public class Subscriber {
 
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
+    }
+
+    @JsonIgnore
+    public void setTariff(Tariff tariff) {
+        this.tariff = tariff;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    @JsonIgnore
+    public Tariff getTariff() {
+        return tariff;
     }
 }

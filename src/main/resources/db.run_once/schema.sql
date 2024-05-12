@@ -1,13 +1,11 @@
-DROP TABLE subscribers;
-DROP TABLE tariffs;
-
+DROP TABLE IF EXISTS subscribers, tariffs;
 CREATE TABLE tariffs (
-                         id INT PRIMARY KEY,
-                         name VARCHAR(255),
-                         call_rate_same_operator DECIMAL(10, 2),
-                         call_rate_other_operator DECIMAL(10, 2),
-                         free_incoming_minutes INT DEFAULT 0,
-                         monthly_fee DECIMAL(10, 1) DEFAULT 0.0
+     id INT PRIMARY KEY,
+     name VARCHAR(255),
+     call_rate_same_operator DECIMAL(10, 2),
+     call_rate_other_operator DECIMAL(10, 2),
+     free_incoming_minutes INT DEFAULT 0,
+     monthly_fee DECIMAL(10, 1) DEFAULT 0.0
 );
 
 CREATE TABLE IF NOT EXISTS subscribers (
